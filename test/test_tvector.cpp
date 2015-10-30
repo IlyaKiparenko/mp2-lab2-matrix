@@ -31,12 +31,28 @@ TEST(TVector, can_create_copied_vector)
 
 TEST(TVector, copied_vector_is_equal_to_source_one)
 {
-  ADD_FAILURE();
+  TVector<int> v(4);
+  v[0]=10;
+  v[2]=3;
+  // 10 0 3 0
+  
+  TVector<int> t(v);
+
+  EXPECT_EQ(v, t);
 }
 
 TEST(TVector, copied_vector_has_its_own_memory)
 {
-  ADD_FAILURE();
+  TVector<int> v(4);
+  v[0] = 10;
+  v[2] = 3;
+  // 10 0 3 0
+  
+  TVector<int> t(v);
+  t[1] = 7;
+  // 10 7 3 0
+
+  EXPECT_NE(v, t);
 }
 
 TEST(TVector, can_get_size)
@@ -63,91 +79,293 @@ TEST(TVector, can_set_and_get_element)
 
 TEST(TVector, throws_when_set_element_with_negative_index)
 {
-  ADD_FAILURE();
+  TVector<int> v(4);
+
+  ASSERT_ANY_THROW(v[-3]);
 }
 
 TEST(TVector, throws_when_set_element_with_too_large_index)
 {
-  ADD_FAILURE();
+  TVector<int> v(4);
+
+  ASSERT_ANY_THROW(v[7]);
 }
 
 TEST(TVector, can_assign_vector_to_itself)
 {
-  ADD_FAILURE();
+  TVector<int> v(4);
+  v[0] = 10;
+  v[2] = 3;
+  // 10 0 3 0
+  
+  TVector<int> t(4);
+  t[0] = 10;
+  t[2] = 3;
+  // 10 0 3 0
+
+  v=v;
+
+  EXPECT_EQ(v, t);
 }
 
 TEST(TVector, can_assign_vectors_of_equal_size)
 {
-  ADD_FAILURE();
+  TVector<int> v(4);
+  v[0] = 10;
+  v[2] = 3;
+  // 10 0 3 0
+
+  TVector<int> r(4);
+  r[1] = 1;
+  r[3] = 4;
+  // 0 1 0 4
+  
+  TVector<int> t(r);
+  // 0 1 0 4
+
+  v=r;
+
+  EXPECT_EQ(v, t);
 }
 
 TEST(TVector, assign_operator_change_vector_size)
 {
-  ADD_FAILURE();
+  TVector<int> v(4);
+  TVector<int> t(5);
+  v=t;
+  EXPECT_NE(v.GetSize(), 4);
 }
 
 TEST(TVector, can_assign_vectors_of_different_size)
 {
-  ADD_FAILURE();
+  TVector<int> v(4);
+  v[0] = 10;
+  v[2] = 3;
+  // 10 0 3 0
+
+  TVector<int> r(5);
+  r[1] = 1;
+  r[3] = 4;
+  r[4] = 11;
+  // 0 1 0 4 11
+  
+  TVector<int> t(r);
+  // 0 1 0 4 11
+
+  v=r; 
+
+  EXPECT_EQ(v, t);
 }
 
 TEST(TVector, compare_equal_vectors_return_true)
 {
-  ADD_FAILURE();
+  TVector<int> v(4);
+  v[0] = 10;
+  v[2] = 3;
+  // 10 0 3 0
+  
+  TVector<int> t(4);
+  t[0] = 10;
+  t[2] = 3;
+  // 10 0 3 0
+
+  EXPECT_EQ(v == t, true);
 }
 
 TEST(TVector, compare_vector_with_itself_return_true)
 {
-  ADD_FAILURE();
+  TVector<int> v(4);
+  v[0] = 10;
+  v[2] = 3;
+  // 10 0 3 0
+
+  EXPECT_EQ(v == v, true);
 }
 
 TEST(TVector, vectors_with_different_size_are_not_equal)
 {
-  ADD_FAILURE();
+  TVector<int> v(4);
+  v[0] = 10;
+  v[2] = 3;
+  // 10 0 3 0
+  
+  TVector<int> t(5);
+  t[0] = 10;
+  t[2] = 3;
+  // 10 0 3 0 0
+
+  EXPECT_EQ(v == t, false);
 }
 
 TEST(TVector, can_add_scalar_to_vector)
 {
-  ADD_FAILURE();
+  TVector<int> v(4);
+  v[0] = 10;
+  v[2] = 3;
+  // 10 0 3 0
+  
+  TVector<int> t(4);
+  t[0] = 12;
+  t[1] = 2;
+  t[2] = 5;
+  t[3] = 2;
+
+  // 12 2 5 2
+
+  EXPECT_EQ(v + 2, t);
 }
 
 TEST(TVector, can_subtract_scalar_from_vector)
 {
-  ADD_FAILURE();
+  TVector<int> v(4);
+  v[0] = 10;
+  v[2] = 3;
+  // 10 0 3 0
+  
+  TVector<int> t(4);
+  t[0] = 8;
+  t[1] = -2;
+  t[2] = 1;
+  t[3] = -2;
+
+  // 8 -2 1 -2
+
+  EXPECT_EQ(v - 2, t);
 }
 
 TEST(TVector, can_multiply_scalar_by_vector)
 {
-  ADD_FAILURE();
+  TVector<int> v(4);
+  v[0] = 10;
+  v[2] = 3;
+  // 10 0 3 0
+  
+  TVector<int> t(4);
+  t[0] = 20;
+  t[2] = 6;
+
+  // 20 0 6 0
+
+  EXPECT_EQ(v * 2, t);
 }
 
 TEST(TVector, can_add_vectors_with_equal_size)
 {
-  ADD_FAILURE();
+  TVector<int> v(4);
+  v[0] = 10;
+  v[2] = 3;
+  // 10 0 3 0
+  
+  TVector<int> t(4);
+  t[0] = 20;
+  t[2] = 6;
+  // 20 0 6 0
+
+  EXPECT_EQ(v + v, t);
 }
 
 TEST(TVector, cant_add_vectors_with_not_equal_size)
 {
-  ADD_FAILURE();
+  TVector<int> v(4);
+  v[0] = 10;
+  v[2] = 3;
+  // 10 0 3 0
+
+  TVector<int> r(5);
+  r[1] = 1;
+  r[3] = 4;
+  r[4] = 11;
+  // 0 1 0 4 11
+  
+  TVector<int> t(5);
+  t[0] = 10;
+  t[1] = 1;
+  t[2] = 3;
+  t[3] = 4;
+  t[4] = 11;
+  // 10 1 3 4 11
+
+  EXPECT_EQ(r+v, t);
 }
 
 TEST(TVector, can_subtract_vectors_with_equal_size)
 {
-  ADD_FAILURE();
+  TVector<int> v(4);
+  v[0] = 10;
+  v[2] = 3;
+  // 10 0 3 0
+  
+  TVector<int> t(4);
+  t[0] = 10;
+  t[1] = 1;
+  t[2] = 3;
+  t[3] = 4;
+  // 10 1 3 4
+
+  TVector<int> r(4);
+  r[1] = -1;
+  r[3] = -4;
+  // 0 -1 0 -4
+
+  EXPECT_EQ(v - t, r);
 }
 
 TEST(TVector, cant_subtract_vectors_with_not_equal_size)
 {
-  ADD_FAILURE();
+  TVector<int> v(4);
+  v[0] = 10;
+  v[2] = 3;
+  // 10 0 3 0
+  
+  TVector<int> t(5);
+  t[0] = 10;
+  t[1] = 1;
+  t[2] = 3;
+  t[3] = 4;
+  t[4] = 22;
+  // 10 1 3 4 22
+
+  TVector<int> r(5);
+  r[1] = -1;
+  r[3] = -4;
+  r[4] = -22;
+  // 0 -1 0 -4
+
+  EXPECT_EQ(v - t, r);
 }
 
 TEST(TVector, can_multiply_vectors_with_equal_size)
 {
-  ADD_FAILURE();
+  TVector<int> v(4);
+  v[0] = 10;
+  v[2] = 3;
+  // 10 0 3 0
+  
+  TVector<int> t(4);
+  t[0] = 10;
+  t[1] = 1;
+  t[2] = 3;
+  t[3] = 4;
+  // 10 1 3 4
+
+  EXPECT_EQ(v * t, 109);
 }
 
 TEST(TVector, cant_multiply_vectors_with_not_equal_size)
 {
-  ADD_FAILURE();
+  TVector<int> v(4);
+  v[0] = 10;
+  v[2] = 3;
+  // 10 0 3 0
+  
+  TVector<int> t(5);
+  t[0] = 10;
+  t[1] = 1;
+  t[2] = 3;
+  t[3] = 4;
+  t[4] = 22;
+  // 10 1 3 4 22
+
+  ASSERT_ANY_THROW(v * t);
 }
 
