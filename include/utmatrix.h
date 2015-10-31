@@ -250,9 +250,10 @@ TMatrix<ValType>& TMatrix<ValType>::operator=(const TMatrix<ValType> &mt) {
   if (this != &mt) {
     Size = mt.Size;
     StartIndex = mt.StartIndex;
+    delete [] pVector;
     pVector = new TVector<ValType>[Size];
     for (int i = 0; i < Size; i++) {
-      pVector[i] = *(new TVector<ValType>(mt.pVector[i]));
+      pVector[i] = mt.pVector[i]; // *(new TVector<ValType>(mt.pVector[i]));
     }
     return *this;
   }
